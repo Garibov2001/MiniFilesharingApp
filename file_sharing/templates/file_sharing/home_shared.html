@@ -1,0 +1,35 @@
+{% extends "file_sharing/base.html" %}
+{% block content %}
+    <h3>Mənimlə paylaşılan filelar : </h3>
+    {% if shared_files %}      
+
+      {% for shared_file in shared_files %}
+        <article class="media content-section mt-3">
+          <div class="media-body">
+            <div class="article-metadata">
+              <small class="text-muted">Əlavə olunma tarixi : {{shared_file.document.date_posted}}</small>
+            </div>
+            <div class="d-flex justify-content-between mb-2 mt-3">
+              <a class="mr-3" href="{{shared_file.document.document.url}}" download><i class="fas fa-file-download" style="color: black; font-size: 72px;"></i></a>
+              <p class="article-content">{{shared_file.document.description}}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>              
+                  <a href="{% url 'file-sharing-file-details' id=shared_file.document.id %}" class="btn btn-secondary mr-2">Detallar</a>            
+              </div>
+              <div class="d-flex">
+                <p class="mr-4">You access: <strong>{% if shared_file.permission == 1%}  Read and Comment {% else %} Read Only {% endif %}</strong> </p>
+                <p>File owner: <strong>{{shared_file.document.owner.username}}</strong></p>
+              </div>
+            </div>          
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p>Sizinle paylasilan file yoxdur</p>
+    {% endif %}
+      
+
+
+    
+{% endblock content %}

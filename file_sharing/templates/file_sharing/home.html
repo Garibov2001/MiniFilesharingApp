@@ -1,0 +1,40 @@
+{% extends "file_sharing/base.html" %}
+{% block content %}
+    <div class="row mb-2">
+      <div class="col-10"> 
+        <div>
+          <a href="{% url 'file-sharing-add-file' %}" type="button" class="btn btn-secondary">+ Yeni File əlavə et</a>
+        </div>
+      </div>
+    </div>
+    <h3>Filelarım : </h3>
+    {% if files %}
+      {% for file in files %}
+      <article class="media content-section mt-3">
+        <div class="media-body">
+          <div class="article-metadata">
+            <small class="text-muted">Əlavə olunma tarixi : {{file.date_posted}}</small>
+          </div>
+          <div class="d-flex justify-content-between mb-2 mt-3">
+            <a class="mr-3" href="{{file.document.url}}" download><i class="fas fa-file-download" style="color: black; font-size: 72px;"></i></a>
+            <p class="article-content">{{file.description}}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div>              
+                <a href="{% url 'file-sharing-file-details' id=file.id %}" class="btn btn-secondary mr-2">Detallar</button>
+              {% if file.owner == request.user %}
+                <a href="{% url 'file-sharing-share-file' id=file.id %}" class="btn btn-secondary">Paylas</a>              
+              {% endif %}              
+            </div>
+            <p>File owner: {{file.owner.username}}</p>
+          </div>          
+        </div>
+      </article>
+      {% endfor %}
+    {% else %}
+      <p>Sizin fileniz yoxdur</p>
+    {% endif %}    
+      
+
+    
+{% endblock content %}
